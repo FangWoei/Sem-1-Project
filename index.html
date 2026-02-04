@@ -1,208 +1,158 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/x-icon" href="assets/img/logo.png" />
-    <title>The Password Strength Game</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
-      crossorigin="anonymous" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Password Game</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="assets/css/style.css" />
-
-    <script src="https://unpkg.com/typed.js@2.0.15/dist/typed.umd.js"></script>
   </head>
-  <body>
-    <header>
-      <div class="container">
-        <div class="rows d-flex justify-content-center align-items-center">
-          <div class="title-box-header w-50 text-center mx-auto">
-            <h1 class="m-5">
-              <span class="auto-type"></span>
-            </h1>
-          </div>
+  <body class="p-4">
+    <div class="max-w-4xl mx-auto">
+      <!-- Header -->
+      <div class="text-center mb-8">
+        <h1 class="text-5xl font-bold text-white mb-2">The Password Game</h1>
+        <p class="text-white text-lg opacity-90">
+          Choose your password. But choose wisely...
+        </p>
+      </div>
+
+      <!-- Info B oxes - 3 Columns -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <!-- Description -->
+        <div class="bg-white rounded-2xl shadow-xl p-6">
+          <h3 class="text-xl font-bold text-purple-600 mb-3">Description</h3>
+          <p class="text-gray-700 text-sm leading-relaxed">
+            A password is a secret combination of letters, numbers, and symbols
+            used to protect your personal information, online accounts, and
+            digital devices. It acts like a key - only the person who knows the
+            correct password can unlock access to the data or system.
+          </p>
+        </div>
+
+        <!-- Why Passwords Are Important -->
+        <div class="bg-white rounded-2xl shadow-xl p-6">
+          <h3 class="text-xl font-bold text-purple-600 mb-3">
+            Why Passwords Are Important
+          </h3>
+          <ol class="text-gray-700 text-sm space-y-2 list-decimal list-inside">
+            <li>
+              Protect Personal Information - Keep your emails, social media, and
+              banking accounts safe
+            </li>
+            <li>
+              Prevent Unauthorized Access - Stop hackers from logging into your
+              accounts
+            </li>
+            <li>
+              Secure Online Transactions - Protect your payment information
+            </li>
+            <li>
+              Maintain Privacy - Prevent others from reading your sensitive data
+            </li>
+          </ol>
+        </div>
+
+        <!-- How to Create a Safe Password -->
+        <div class="bg-white rounded-2xl shadow-xl p-6">
+          <h3 class="text-xl font-bold text-purple-600 mb-3">
+            How to Create a Safe Password
+          </h3>
+          <ol class="text-gray-700 text-sm space-y-2 list-decimal list-inside">
+            <li>Use at least 8-12 characters or more</li>
+            <li>Mix letters, numbers, and symbols</li>
+            <li>Avoid personal information like your name or birthday</li>
+            <li>Use different passwords for different accounts</li>
+            <li>Change your passwords regularly</li>
+            <li>Use a password manager to store passwords securely</li>
+          </ol>
         </div>
       </div>
-    </header>
-    <section>
-      <div class="container-md">
-        <div class="row">
-          <div class="col-md-4 title-box">
-            <div><strong>Description</strong></div>
-            <p>
-              A password is a secret combination of letters, numbers, and
-              symbols used to protect your personal information, online
-              accounts, and digital devices. It acts like a key – only the
-              person who knows the correct password can unlock access to the
-              data or system. Passwords help keep your private information safe
-              from hackers and unauthorized users.
-            </p>
-          </div>
-          <div class="col-md-4 title-box">
-            <div><strong>Why Passwords Are Important</strong></div>
-            <ol>
-              <li>
-                Protect Personal Information – Passwords keep your emails,
-                social media, and banking accounts safe.
-              </li>
-              <li>
-                Prevent Unauthorized Access – Strong passwords stop hackers from
-                logging into your accounts.
-              </li>
-              <li>
-                Secure Online Transactions – They protect your credit card or
-                payment information when shopping online.
-              </li>
-              <li>
-                Maintain Privacy – Passwords prevent others from reading your
-                messages, files, or sensitive data.
-              </li>
-            </ol>
-          </div>
-          <div class="col-md-4 title-box">
-            <div><strong>How to Create a Safe Password </strong></div>
-            <ol>
-              <li>Use at least 8–12 characters or more.</li>
-              <li>Mix letters, numbers, and symbols for complexity.</li>
-              <li>
-                Avoid personal information like your name, birthday, or phone
-                number.
-              </li>
-              <li>Use different passwords for different accounts.</li>
-              <li>Change your passwords regularly.</li>
-              <li>
-                Use a password manager to store and remember passwords securely.
-              </li>
-            </ol>
+
+      <!-- Main Game Card -->
+      <div class="bg-white rounded-3xl shadow-2xl p-8 mb-6">
+        <!-- Difficulty Selection -->
+        <div class="mb-6">
+          <h2 class="text-xl font-semibold mb-3 text-gray-800">
+            Select Difficulty:
+          </h2>
+          <div class="flex gap-3 flex-wrap">
+            <button
+              id="easy-btn"
+              class="px-6 py-3 rounded-lg font-semibold transition-all bg-green-500 text-white hover:bg-green-600 shadow-lg">
+              Easy (5 rules)
+            </button>
+            <button
+              id="medium-btn"
+              class="px-6 py-3 rounded-lg font-semibold transition-all bg-gray-200 text-gray-700 hover:bg-gray-300">
+              Medium (10 rules)
+            </button>
+            <button
+              id="hard-btn"
+              class="px-6 py-3 rounded-lg font-semibold transition-all bg-gray-200 text-gray-700 hover:bg-gray-300">
+              Hard (15 rules)
+            </button>
           </div>
         </div>
-      </div>
-    </section>
 
-    <main>
-      <div class="container">
-        <!-- Game Section -->
-        <div class="row mt-5">
-          <div class="col-12">
-            <div class="game-card">
-              <h2 class="text-center mb-4">🎮 Play The Password Game</h2>
-
-              <!-- Difficulty Buttons Row -->
-              <div class="row mb-4">
-                <div class="col-12">
-                  <div
-                    class="difficulty-buttons d-flex justify-content-center gap-3">
-                    <button
-                      class="btn-difficulty btn-easy active"
-                      data-difficulty="easy">
-                      Easy
-                    </button>
-                    <button
-                      class="btn-difficulty btn-medium"
-                      data-difficulty="medium">
-                      Medium
-                    </button>
-                    <button
-                      class="btn-difficulty btn-hard"
-                      data-difficulty="hard">
-                      Hard
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Password Input Row -->
-              <div class="row">
-                <div class="col-12">
-                  <div class="password-input-container">
-                    <label for="passwordInput">Enter Your Password:</label>
-                    <div class="input-wrapper">
-                      <input
-                        type="text"
-                        id="passwordInput"
-                        class="form-control password-input"
-                        placeholder="Type your password here..."
-                        autocomplete="off" />
-                      <span class="character-count">0</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Strength Meter -->
-              <div class="row mt-4">
-                <div class="col-12">
-                  <div class="strength-meter">
-                    <div class="strength-bar-container">
-                      <div class="strength-bar" id="strengthBar">
-                        <span class="strength-label"></span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Requirements -->
-              <div class="row mt-4">
-                <div class="col-12">
-                  <div class="requirements">
-                    <h3>Password Requirements:</h3>
-                    <div class="requirement-item" id="req-length">
-                      <span class="icon"></span>
-                      <span class="text">Minimum 8 characters</span>
-                    </div>
-                    <div class="requirement-item" id="req-uppercase">
-                      <span class="icon"></span>
-                      <span class="text">At least one uppercase letter</span>
-                    </div>
-                    <div class="requirement-item" id="req-lowercase">
-                      <span class="icon"></span>
-                      <span class="text">At least one lowercase letter</span>
-                    </div>
-                    <div class="requirement-item" id="req-number">
-                      <span class="icon"></span>
-                      <span class="text">At least one number</span>
-                    </div>
-                    <div class="requirement-item" id="req-special">
-                      <span class="icon"></span>
-                      <span class="text"
-                        >At least one special character (!@#$%^&*)</span
-                      >
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Score Display -->
-              <div class="row mt-4">
-                <div class="col-12">
-                  <div class="score-display">
-                    <h3>Your Score</h3>
-                    <div class="score-value" id="scoreValue">0</div>
-                    <p class="score-message" id="scoreMessage">
-                      Start typing to see your score!
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
+        <!-- Password Input -->
+        <div class="mb-6">
+          <label class="block text-lg font-semibold mb-2 text-gray-800"
+            >Your Password:</label
+          >
+          <input
+            type="text"
+            id="password-input"
+            class="password-input w-full p-4 border-4 border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none transition-all"
+            placeholder="Start typing your password..."
+            autocomplete="off" />
+          <div class="mt-2 text-sm text-gray-600">
+            Length:
+            <span id="char-count" class="font-semibold text-purple-600">0</span>
+            characters
           </div>
         </div>
-      </div>
-    </main>
 
-    <footer class="text-center py-4 mt-5">
-      <p style="color: white; opacity: 0.8">
-        © 2024 Password Strength Game. Stay Safe Online! 🔒
-      </p>
-    </footer>
+        <!-- Requirements List -->
+        <div id="requirements-container" class="space-y-3">
+          <h2 class="text-xl font-semibold mb-4 text-gray-800">
+            Requirements:
+          </h2>
+        </div>
+
+        <!-- Crack Time Display (NEW SECTION) -->
+        <div
+          class="mt-6 text-center bg-gradient-to-r from-blue-600 to-cyan-500 rounded-2xl p-6 text-white">
+          <h3 class="text-2xl font-semibold mb-2">Time to Crack</h3>
+          <div id="crack-time" class="text-4xl font-bold mb-2">
+            <span id="crack-time-value">Instantly</span>
+          </div>
+          <p id="crack-time-description" class="text-lg opacity-90">
+            Based on current password strength
+          </p>
+          <div class="mt-4 text-sm opacity-80">
+            <p>Assumes 1 billion guesses per second</p>
+          </div>
+        </div>
+        
+        <!-- Score Display -->
+        <div
+        class="mt-8 text-center bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl p-6 text-white">
+        <h3 class="text-2xl font-semibold mb-2">Your Score</h3>
+        <div id="score" class="text-6xl font-bold mb-2">0</div>
+        <p id="score-message" class="text-lg opacity-90">
+          Complete all requirements to win!
+        </p>
+      </div>
+      
+    </div>
+
+      <!-- Footer -->
+      <div class="text-center text-white opacity-75">
+        <p>2024 The Password Game. Stay secure!</p>
+      </div>
+    </div>
 
     <script src="assets/js/script.js"></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-      crossorigin="anonymous"></script>
   </body>
 </html>
