@@ -1,6 +1,7 @@
 let currentDifficulty = "easy";
 let requirements = [];
 let password = "";
+let currentScore = 0;
 
 // Pre-defined creative requirements (like Neal's Password Game)
 const allRequirements = [
@@ -167,6 +168,12 @@ const mediumBtn = document.getElementById("medium-btn");
 const hardBtn = document.getElementById("hard-btn");
 const crackTimeValue = document.getElementById("crack-time-value");
 const crackTimeDescription = document.getElementById("crack-time-description");
+const saveScoreForm = document.getElementById("save-score-form");
+const playerNameInput = document.getElementById("player-name");
+const saveScoreBtn = document.getElementById("save-score-btn");
+const saveMessage = document.getElementById("save-message");
+const leaderboardDiv = document.getElementById("leaderboard");
+const clearLeaderboardBtn = document.getElementById("clear-leaderboard-btn");
 
 // Difficulty button handlers
 easyBtn.addEventListener("click", () => selectDifficulty("easy", easyBtn));
@@ -201,6 +208,9 @@ function selectDifficulty(difficulty, button) {
     button.classList.add("bg-red-500", "text-white", "shadow-lg");
   }
 
+  // Hide save form when difficulty changes
+  saveScoreForm.classList.add("hidden");
+  
   loadRequirements();
 }
 
@@ -209,7 +219,7 @@ passwordInput.addEventListener("input", (e) => {
   password = e.target.value;
   charCount.textContent = password.length;
   checkRequirements();
-  updateCrackTime(); // Update crack time when password changes
+  updateCrackTime();
 });
 
 // Calculate password entropy and crack time
@@ -220,19 +230,15 @@ function calculateCrackTime(password) {
 
   // Calculate character set size
   let charsetSize = 0;
-  if (/[a-z]/.test(password)) charsetSize += 26; // lowercase letters
-  if (/[A-Z]/.test(password)) charsetSize += 26; // uppercase letters
-  if (/[0-9]/.test(password)) charsetSize += 10; // digits
-  if (/[!@#$%^&*]/.test(password)) charsetSize += 32; // special characters
+  if (/[a-z]/.test(password)) charsetSize += 26;
+  if (/[A-Z]/.test(password)) charsetSize += 26;
+  if (/[0-9]/.test(password)) charsetSize += 10;
+  if (/[!@#$%^&*]/.test(password)) charsetSize += 32;
 
-  // If no character types detected, assume minimal set
   if (charsetSize === 0) charsetSize = 26;
 
-  // Calculate password entropy (bits)
   const entropy = password.length * Math.log2(charsetSize);
-
-  // Calculate crack time in seconds (1 billion guesses per second)
-  const guessesPerSecond = 1e9; // 1 billion guesses per second
+  const guessesPerSecond = 1e9;
   const crackTimeSeconds = Math.pow(2, entropy) / guessesPerSecond;
 
   return {
@@ -280,10 +286,8 @@ function updateCrackTime() {
   const crackInfo = calculateCrackTime(password);
   crackTimeValue.textContent = crackInfo.readable;
   
-  // Update description with strength
   crackTimeDescription.textContent = `${crackInfo.strength} password`;
   
-  // Update text color based on strength
   const crackTimeElement = crackTimeValue.parentElement;
   crackTimeElement.className = "text-4xl font-bold mb-2";
   
@@ -359,7 +363,6 @@ function checkRequirements() {
     const statusElement = reqElement.querySelector(".status");
     const numberCircle = reqElement.querySelector(".flex-shrink-0");
 
-    // Progressive unlock - must complete previous requirements first
     const previousMet =
       index === 0 ||
       requirements.slice(0, index).every((r) => r.check(password));
@@ -409,22 +412,125 @@ function updateScore(metCount, totalUnlocked) {
   if (metCount === requirements.length && requirements.length > 0) {
     const lengthBonus = password.length * 10;
     const finalScore = baseScore + lengthBonus;
+    currentScore = finalScore;
     scoreElement.textContent = finalScore;
     scoreMessage.textContent = "🎉 Perfect! You won the game!";
     scoreMessage.style.fontSize = "1.5rem";
-  } else if (metCount > 0) {
-    const partialScore = Math.round(
-      (metCount / totalUnlocked) * baseScore * 0.7,
-    );
-    scoreElement.textContent = partialScore;
-    scoreMessage.textContent = `${metCount}/${totalUnlocked} requirements complete. Keep going!`;
-    scoreMessage.style.fontSize = "1.125rem";
+    
+    // Show save score form
+    saveScoreForm.classList.remove("hidden");
   } else {
-    scoreElement.textContent = "0";
-    scoreMessage.textContent = "Complete all requirements to win!";
-    scoreMessage.style.fontSize = "1.125rem";
+    // Hide save score form if not won
+    saveScoreForm.classList.add("hidden");
+    
+    if (metCount > 0) {
+      const partialScore = Math.round(
+        (metCount / totalUnlocked) * baseScore * 0.7,
+      );
+      currentScore = partialScore;
+      scoreElement.textContent = partialScore;
+      scoreMessage.textContent = `${metCount}/${totalUnlocked} requirements complete. Keep going!`;
+      scoreMessage.style.fontSize = "1.125rem";
+    } else {
+      currentScore = 0;
+      scoreElement.textContent = "0";
+      scoreMessage.textContent = "Complete all requirements to win!";
+      scoreMessage.style.fontSize = "1.125rem";
+    }
   }
 }
 
-// Initialize with easy difficulty
+// ========== LEADERBOARD FUNCTIONS ==========
+
+// Save score to localStorage
+saveScoreBtn.addEventListener("click", () => {
+  const playerName = playerNameInput.value.trim();
+  
+  if (!playerName) {
+    saveMessage.textContent = "Please enter your name!";
+    saveMessage.className = "mt-2 text-sm text-red-200";
+    return;
+  }
+  
+  // Get existing scores from localStorage
+  let scores = JSON.parse(localStorage.getItem("passwordGameScores")) || [];
+  
+  // Add new score
+  const newScore = {
+    name: playerName,
+    score: currentScore,
+    difficulty: currentDifficulty,
+    date: new Date().toISOString(),
+  };
+  
+  scores.push(newScore);
+  
+  // Sort by score (descending)
+  scores.sort((a, b) => b.score - a.score);
+  
+  // Keep only top 10 scores
+  scores = scores.slice(0, 10);
+  
+  // Save to localStorage
+  localStorage.setItem("passwordGameScores", JSON.stringify(scores));
+  
+  // Show success message
+  saveMessage.textContent = "Score saved successfully! 🎉";
+  saveMessage.className = "mt-2 text-sm text-green-200";
+  
+  // Clear input
+  playerNameInput.value = "";
+  
+  // Update leaderboard display
+  displayLeaderboard();
+  
+  // Hide form after saving
+  setTimeout(() => {
+    saveScoreForm.classList.add("hidden");
+  }, 2000);
+});
+
+// Display leaderboard
+function displayLeaderboard() {
+  const scores = JSON.parse(localStorage.getItem("passwordGameScores")) || [];
+  
+  if (scores.length === 0) {
+    leaderboardDiv.innerHTML = '<p class="text-center text-gray-500">No scores yet. Be the first!</p>';
+    return;
+  }
+  
+  let html = '<div class="space-y-3">';
+  
+  scores.forEach((entry, index) => {
+    const medal = index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : `${index + 1}.`;
+    const difficultyColor = entry.difficulty === "easy" ? "text-green-600" : 
+                            entry.difficulty === "medium" ? "text-orange-600" : "text-red-600";
+    const date = new Date(entry.date).toLocaleDateString();
+    
+    html += `
+      <div class="flex items-center justify-between p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border-2 border-purple-200">
+        <div class="flex items-center gap-4">
+          <span class="text-2xl font-bold w-10">${medal}</span>
+          <div>
+            <p class="font-bold text-gray-800 text-lg">${entry.name}</p>
+            <p class="text-sm text-gray-600">
+              <span class="${difficultyColor} font-semibold capitalize">${entry.difficulty}</span> 
+              · ${date}
+            </p>
+          </div>
+        </div>
+        <div class="text-right">
+          <p class="text-3xl font-bold text-purple-600">${entry.score}</p>
+          <p class="text-xs text-gray-500">points</p>
+        </div>
+      </div>
+    `;
+  });
+  
+  html += '</div>';
+  leaderboardDiv.innerHTML = html;
+}
+
+// Initialize
 loadRequirements();
+displayLeaderboard();

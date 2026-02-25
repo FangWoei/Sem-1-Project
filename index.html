@@ -17,7 +17,7 @@
         </p>
       </div>
 
-      <!-- Info B oxes - 3 Columns -->
+      <!-- Info Boxes - 3 Columns -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         <!-- Description -->
         <div class="bg-white rounded-2xl shadow-xl p-6">
@@ -120,7 +120,7 @@
           </h2>
         </div>
 
-        <!-- Crack Time Display (NEW SECTION) -->
+        <!-- Crack Time Display -->
         <div
           class="mt-6 text-center bg-gradient-to-r from-blue-600 to-cyan-500 rounded-2xl p-6 text-white">
           <h3 class="text-2xl font-semibold mb-2">Time to Crack</h3>
@@ -143,12 +143,43 @@
         <p id="score-message" class="text-lg opacity-90">
           Complete all requirements to win!
         </p>
+        
+        <!-- Save Score Form (appears when game is won) -->
+        <div id="save-score-form" class="mt-6 hidden">
+          <div class="bg-white bg-opacity-20 rounded-lg p-4">
+            <h4 class="text-xl font-semibold mb-3">🎉 Save Your Score!</h4>
+            <div class="flex gap-3 justify-center items-center flex-wrap">
+              <input
+                type="text"
+                id="player-name"
+                class="px-4 py-2 rounded-lg text-gray-800 font-semibold focus:outline-none focus:ring-2 focus:ring-white"
+                placeholder="Enter your name"
+                maxlength="20" />
+              <button
+                id="save-score-btn"
+                class="px-6 py-2 bg-white text-purple-600 rounded-lg font-bold hover:bg-opacity-90 transition-all">
+                Save
+              </button>
+            </div>
+            <p id="save-message" class="mt-2 text-sm"></p>
+          </div>
+        </div>
       </div>
       
     </div>
 
+      <!-- Leaderboard Section -->
+      <div class="bg-white rounded-3xl shadow-2xl p-8 mt-6">
+        <h2 class="text-3xl font-bold text-center mb-6 text-purple-600">
+          🏆 Leaderboard
+        </h2>
+        <div id="leaderboard" class="space-y-3">
+          <p class="text-center text-gray-500">No scores yet. Be the first!</p>
+        </div>
+      </div>
+
       <!-- Footer -->
-      <div class="text-center text-white opacity-75">
+      <div class="text-center text-white opacity-75 mt-6">
         <p>2024 The Password Game. Stay secure!</p>
       </div>
     </div>
