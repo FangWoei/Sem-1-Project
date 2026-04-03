@@ -26,3 +26,6 @@ HTML5 · Tailwind CSS · Vanilla JavaScript
 - UML.png           — Use Case Diagram
 - Gantt Chart.pdf   — Project Gantt Chart
 - Final - Password Strength Game.pptx — Final Presentation
+
+## Presentation Youtube Link
+- https://youtu.be/cwGGWLkz1KU
